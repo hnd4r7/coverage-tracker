@@ -1,0 +1,12 @@
+[
+  {"method": "GET", "path": "/health"},
+  {"method": "POST", "path": "/items", "json": {"name": "Widget", "price": 9.99}},
+  {"method": "GET", "path": "/items"},
+  {"method": "GET", "path": "/items/1"},
+  {"method": "GET", "path": "/items/9999"},
+  {"method": "GET", "path": "/items", "params": {"in_stock": true}},
+  {"method": "PUT", "path": "/items/1", "json": {"name": "Widget2", "price": 8.0}},
+  {"method": "POST", "path": "/items/1/discount", "params": {"percent": 10}},
+  {"method": "POST", "path": "/items/1/discount", "params": {"percent": 150}},
+  {"method": "DELETE", "path": "/items/1"}
+]
