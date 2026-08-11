@@ -8,14 +8,22 @@ dependencies = [
     "uvicorn",
     "pydantic",
     "coverage",
+    "pandas",
+    "openpyxl",
+    "httpx",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest",
     "pytest-cov",
-    "httpx",
 ]
 
+[project.scripts]
+coverage-tracker-test-report = "scripts.test_run_report:main"
+coverage-tracker-live-report = "scripts.live_client_report:main"
+coverage-tracker-export = "scripts.export_report:main"
+coverage-tracker-select = "scripts.select_cases:main"
+
 [tool.setuptools.packages.find]
-include = ["sample_api*", "coverage_tracker*"]
+include = ["sample_api*", "coverage_tracker*", "scripts*"]

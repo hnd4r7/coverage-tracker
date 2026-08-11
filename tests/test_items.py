@@ -46,3 +46,4 @@ def test_apply_discount():
     created = client.post("/items", json={"name": "Sale", "price": 100.0}).json()
     resp = client.post(f"/items/{created['id']}/discount", params={"percent": 10})
     assert resp.status_code == 200
+
