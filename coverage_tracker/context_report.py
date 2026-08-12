@@ -97,3 +97,24 @@ def report_to_dataframe(report: list[dict], unit_key: str) -> pd.DataFrame:
         row["lines_by_file"] = json.dumps(entry["lines_by_file"])
         rows.append(row)
     return pd.DataFrame(rows)
+
+
+def coverage_db_to_excel(data_file: str, source: list[str] | str, output_path: str) -> pd.DataFrame:
+    """Read a coverage.py data file and write an Excel report directly --
+    one row per recorded context (whatever named `switch_context()` calls
+    produced it: a test, a request, or anything else), with each context's
+    own full line coverage. No dependency on any orchestration script that
+    ran the tests/calls -- everything needed is already in the data file.
+    """
+    contexts, files, hits_by_context = read_context_data(data_file)
+    denominator = total_statements(data_file, source)
+
+    unit_ids = [context_id for context_id, name in contexts.items() if name]
+    unit_names = [contexts[context_id] for context_id in unit_ids]
+
+    series = build_unit_coverage(unit_ids, hits_by_context, files)
+    report = [{"unit": name, **stats} for name, stats in zip(unit_names, series)]
+
+    df = report_to_dataframe(report, unit_key="unit")
+    df.to_excel(output_path, index=False)
+    return df
